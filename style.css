@@ -1,0 +1,520 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg-deep: #040611;
+  --bg-mid: #0a1026;
+  --rose-soft: #f6b8d0;
+  --rose-glow: #ff7aa8;
+  --gold-soft: #ffe3b3;
+  --text-dim: rgba(255, 255, 255, 0.28);
+  --text-bright: #ffffff;
+  --env-body: #e8d5cc;
+  --env-flap: #f3e5de;
+  --env-side: #dcc4b8;
+  --env-seal: #c94a6a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 80%, #131c3d 0%, var(--bg-mid) 45%, var(--bg-deep) 100%);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-bright);
+}
+
+/* ======================== LATAR BINTANG ======================== */
+#starfield {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.nebula-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(155, 107, 255, 0.08), transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(255, 122, 168, 0.09), transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(100, 165, 255, 0.05), transparent 60%);
+  animation: nebulaPulse 14s ease-in-out infinite alternate;
+}
+
+@keyframes nebulaPulse {
+  0% { opacity: 0.7; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.06); }
+}
+
+/* ======================== STAGE UTAMA ======================== */
+.stage {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* ======================== ADEGAN AMPLOP ======================== */
+#envelope-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#envelope-scene.hidden {
+  opacity: 0;
+  transform: translateY(30px) scale(0.92);
+  pointer-events: none;
+}
+
+.envelope-wrapper {
+  position: relative;
+  width: 290px;
+  height: 195px;
+  cursor: pointer;
+  perspective: 1000px;
+  animation: floatEnvelope 4.5s ease-in-out infinite;
+  filter: drop-shadow(0 22px 45px rgba(0, 0, 0, 0.65))
+          drop-shadow(0 0 35px rgba(255, 122, 168, 0.18));
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.envelope-wrapper:hover {
+  transform: scale(1.04) translateY(-4px);
+  filter: drop-shadow(0 28px 50px rgba(0, 0, 0, 0.75))
+          drop-shadow(0 0 45px rgba(255, 122, 168, 0.32));
+}
+
+@keyframes floatEnvelope {
+  0%, 100% { transform: translateY(0px) rotate(-0.8deg); }
+  50% { transform: translateY(-10px) rotate(0.8deg); }
+}
+
+.envelope-back {
+  position: absolute;
+  inset: 0;
+  background: #cbb2a6;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.envelope-letter {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 12px;
+  height: 165px;
+  background: linear-gradient(180deg, #fffdf9 0%, #f9efe8 100%);
+  border-radius: 8px;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 2;
+}
+
+.envelope-letter .letter-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1.3rem;
+  color: #5b3c46;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.envelope-letter .letter-sub {
+  font-size: 0.75rem;
+  color: #8c6d77;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.envelope-front {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.envelope-front::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--env-side);
+  clip-path: polygon(0 0, 52% 52%, 0 100%);
+  border-radius: 10px 0 0 10px;
+}
+
+.envelope-front::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #d5bbb0;
+  clip-path: polygon(100% 0, 48% 52%, 100% 100%);
+  border-radius: 0 10px 10px 0;
+}
+
+.envelope-bottom {
+  position: absolute;
+  inset: 0;
+  background: var(--env-body);
+  clip-path: polygon(0 100%, 50% 46%, 100% 100%);
+  border-radius: 0 0 10px 10px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.envelope-flap {
+  position: absolute;
+  inset: 0;
+  background: var(--env-flap);
+  clip-path: polygon(0 0, 50% 58%, 100% 0);
+  border-radius: 10px 10px 0 0;
+  transform-origin: top center;
+  transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s 0.35s;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.wax-seal {
+  position: absolute;
+  top: 54%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e36588, var(--env-seal) 65%, #8f2945 100%);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.35),
+    inset 0 2px 4px rgba(255, 255, 255, 0.35),
+    0 0 18px rgba(255, 122, 168, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+  transition: transform 0.45s ease, opacity 0.45s ease;
+  border: 2px dashed rgba(255, 215, 225, 0.35);
+}
+
+.wax-seal svg {
+  width: 22px;
+  height: 22px;
+  fill: #ffeef3;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+  animation: heartBeat 2.2s infinite ease-in-out;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.15); }
+  30% { transform: scale(0.96); }
+  45% { transform: scale(1.08); }
+}
+
+.envelope-wrapper.open .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope-wrapper.open .wax-seal {
+  transform: translate(-50%, -50%) scale(0.4);
+  opacity: 0;
+}
+
+.envelope-wrapper.open .envelope-letter {
+  transform: translateY(-90px) scale(1.03);
+}
+
+.envelope-hint {
+  margin-top: 34px;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.05em;
+  text-align: center;
+  animation: pulseHint 2.6s ease-in-out infinite;
+}
+
+@keyframes pulseHint {
+  0%, 100% { opacity: 0.55; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-3px); }
+}
+
+/* ======================== ADEGAN SAPAAN SEBELUM LAGU ======================== */
+#intro-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.85s ease, transform 0.85s ease;
+  transform: translateY(10px);
+  z-index: 12;
+}
+
+#intro-scene.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.intro-message {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3.8vw, 2.35rem);
+  color: #ffe6f0;
+  text-shadow: 0 0 24px rgba(255, 130, 178, 0.55);
+  letter-spacing: 0.03em;
+  text-align: center;
+}
+
+/* ======================== ADEGAN KARAOKE (SATU BARIS) ======================== */
+#karaoke-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.9s ease;
+}
+
+#karaoke-scene.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.song-badge {
+  position: absolute;
+  top: 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  font-size: 0.76rem;
+  letter-spacing: 0.07em;
+  color: rgba(255, 255, 255, 0.75);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+#karaoke-scene.active .song-badge {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.equalizer {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 12px;
+}
+
+.equalizer span {
+  width: 2px;
+  background: var(--rose-soft);
+  border-radius: 2px;
+  animation: eqBar 1s ease-in-out infinite alternate;
+}
+
+.equalizer span:nth-child(1) { height: 5px; animation-delay: 0.1s; }
+.equalizer span:nth-child(2) { height: 11px; animation-delay: 0.3s; }
+.equalizer span:nth-child(3) { height: 6px; animation-delay: 0.5s; }
+.equalizer span:nth-child(4) { height: 9px; animation-delay: 0.2s; }
+
+@keyframes eqBar {
+  0% { height: 3px; opacity: 0.5; }
+  100% { height: 12px; opacity: 1; }
+}
+
+/* Container Lirik — Hanya 1 Baris Memanjang */
+.lyrics-stage {
+  width: 100%;
+  max-width: 96vw;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.current-lyric {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 500;
+  font-size: clamp(0.85rem, 2.2vw, 1.38rem);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-align: center;
+  word-spacing: normal;
+  padding: 0 8px;
+}
+
+.current-lyric.line-enter {
+  animation: lineFadeUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes lineFadeUp {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.karaoke-chunk {
+  position: relative;
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.26);
+  white-space: pre;
+  margin: 0;
+  padding: 0;
+}
+
+.karaoke-chunk .fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(var(--progress, 0) * 100%);
+  height: 100%;
+  overflow: hidden;
+  white-space: pre;
+  color: #ffffff;
+  text-shadow:
+    0 0 14px rgba(255, 150, 195, 0.8),
+    0 0 26px rgba(255, 122, 168, 0.4);
+  pointer-events: none;
+}
+
+/* Progress Bar Bawah */
+.progress-wrap {
+  position: absolute;
+  bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: min(340px, 80vw);
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 3.5px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #ff85b3, #ffd6a5);
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(255, 133, 179, 0.8);
+  transition: width 0.12s linear;
+}
+
+.time-label {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.08em;
+}
+
+/* ======================== ADEGAN PENUTUP ======================== */
+#finale-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.4s ease;
+  z-index: 15;
+}
+
+#finale-scene.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.finale-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  background: linear-gradient(135deg, #ffffff 0%, #ffd1e3 48%, #ffe4b5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 35px rgba(255, 0, 157, 0.938);
+  margin-bottom: 26px;
+  transform: scale(0.94);
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#finale-scene.active .finale-title {
+  transform: scale(1);
+}
+
+.replay-btn {
+  padding: 10px 24px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+}
+
+.replay-btn:hover {
+  background: rgba(255, 122, 168, 0.25);
+  border-color: rgba(255, 184, 208, 0.6);
+  transform: translateY(-2px);
+}
+
+/* YouTube Player minimal 240x240 di luar layar agar YouTube tidak memblokir audio */
+#yt-hidden-wrap {
+  position: fixed;
+  width: 240px;
+  height: 240px;
+  left: -9999px;
+  top: -9999px;
+  pointer-events: none;
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About You ✨</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Latar Bintang Bergerak Pelan -->
+  <canvas id="starfield"></canvas>
+  <div class="nebula-overlay"></div>
+
+  <!-- Stage Utama -->
+  <main class="stage">
+
+    <!-- 1. ADEGAN AMPLOP -->
+    <section id="envelope-scene">
+      <div class="envelope-wrapper" id="envelope" role="button" tabindex="0" aria-label="Buka Amplop">
+        <div class="envelope-back"></div>
+        <div class="envelope-letter">
+          <div class="letter-title">About You</div>
+          <div class="letter-sub">The 1975</div>
+        </div>
+        <div class="envelope-front"></div>
+        <div class="envelope-bottom"></div>
+        <div class="envelope-flap"></div>
+        <div class="wax-seal">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+      </div>
+      <p class="envelope-hint">buka amplop nya yaaa</p>
+    </section>
+
+    <!-- 1B. ADEGAN SAPAAN SEBELUM LAGU MULAI -->
+    <section id="intro-scene">
+      <p class="intro-message" id="intro-text">selamat mendengarkan cantik..</p>
+    </section>
+
+    <!-- 2. ADEGAN KARAOKE (HANYA SATU BARIS) -->
+    <section id="karaoke-scene">
+      <div class="song-badge">
+        <div class="equalizer">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <span>The 1975 — About You</span>
+      </div>
+
+      <div class="lyrics-stage">
+        <div class="current-lyric" id="current-lyric"></div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-bar"></div>
+        </div>
+        <div class="time-label" id="time-label">00:00 / 01:02</div>
+      </div>
+    </section>
+
+    <!-- 3. ADEGAN PENUTUP -->
+    <section id="finale-scene">
+      <h1 class="finale-title" id="finale-text">Semangatt ya Cantik</h1>
+      <button class="replay-btn" id="replay-btn">Putar dari Awal</button>
+    </section>
+
+  </main>
+
+  <!-- Audio Element & YouTube Player -->
+  <audio id="local-audio" preload="auto"></audio>
+  <div id="yt-hidden-wrap"><div id="yt-player"></div></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
